@@ -15,6 +15,10 @@ public class Task {
     private Timestamp created;
     private boolean done;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public Task() {
 
     }
@@ -23,8 +27,10 @@ public class Task {
         this.id = id;
     }
 
-    public Task(String description) {
+    public Task(String description, User user) {
         this.description = description;
+        this.user = user;
+
     }
 
     public Task(String description, Timestamp created, boolean done) {
@@ -68,6 +74,14 @@ public class Task {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

@@ -20,8 +20,9 @@
 <body>
 <script>
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         load();
+        currentUser();
     })
 
     function load() {
@@ -39,6 +40,7 @@
                                 + '<th>' + data[i]["id"] + '</th>'
                                 + '<th>' + data[i]["description"] + '</th>'
                                 + '<th>' + data[i]["created"] + '</th>'
+                                + '<th>' + data[i]["user"]["name"] + '</th>'
                                 + '<th>' + done + '</th>'
                                 );
             }
@@ -49,7 +51,7 @@
         if (validate()) {
             $.ajax({
                 type: 'POST',
-                url: 'http://localhost:8080/todolist/add',
+                url: 'http://localhost:8080/todolist/add.do',
                 data: {description : $('#description').val()}
             }).done(function() {
                     load()
@@ -69,6 +71,15 @@
         );
     }
 
+    function currentUser() {
+        $.ajax({
+            type: 'GET',
+            url: 'http://localhost:8080/todolist/user'
+        }).done(function(data) {
+            $('a').replaceWith('<a href="http://localhost:8080/todolist/login.do">' + data["name"] + '</a>');
+        })
+    }
+
     function validate() {
         let result = true;
         let message = "";
@@ -85,6 +96,14 @@
 
 </script>
 
+<div class="container">
+    <div class="row">
+        <ul class="nav">
+            <li class="nav-item">
+                <a id="enter" class="nav-link" href="http://localhost:8080/todolist/login.do">Войти</a>
+            </li>
+        </ul>
+    </div>
 <div class="container pt-3">
     <div class="row">
         <div class="card" style="width: 100%">
@@ -97,7 +116,7 @@
                         <label>Новая задача</label>
                         <input type="text" required class="form-control" name="description" id="description" placeholder="Введите описание...">
                     </div>                    
-                    <button type="button" class="btn btn-primary" onclick="add()">Добавить</button><br>
+                    <button type="submit" class="btn btn-primary" onclick="add()">Добавить</button><br>
                 </form>
             </div>
         </div>
@@ -112,6 +131,7 @@
         <th scope="col">№</th>
         <th scope="col" width=800px>Описание</th>
         <th scope="col">Дата</th>
+        <th scope="col">Автор</th>
         <th scope="col">Выполнено</th>
       </tr>
     </thead>

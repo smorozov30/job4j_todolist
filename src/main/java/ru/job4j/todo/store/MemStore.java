@@ -1,6 +1,7 @@
 package ru.job4j.todo.store;
 
 import ru.job4j.todo.model.Task;
+import ru.job4j.todo.model.User;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -12,8 +13,10 @@ import java.util.stream.Collectors;
 
 public class MemStore implements Store {
     private static final AtomicInteger TASK_ID = new AtomicInteger(2);
+    private static final AtomicInteger USER_ID = new AtomicInteger(2);
 
     private final Map<Integer, Task> tasks = new ConcurrentHashMap<>();
+    private final Map<Integer, User> users = new ConcurrentHashMap<>();
 
     private MemStore() {
         tasks.put(1, new Task(1, "Task number 1", new Timestamp(System.currentTimeMillis()), true));
@@ -47,5 +50,18 @@ public class MemStore implements Store {
         task = tasks.get(id);
         task.setDone(!task.isDone());
         return task;
+    }
+
+    @Override
+    public List<User> getUsers(Predicate<User> condition) {
+        return users.values().stream().filter(condition).collect(Collectors.toList());
+    }
+
+    @Override
+    public User addUser(User user) {
+        if (user.getId() == 0) {
+            user.setId(USER_ID.incrementAndGet());
+        }
+        return users.putIfAbsent(user.getId(), user);
     }
 }

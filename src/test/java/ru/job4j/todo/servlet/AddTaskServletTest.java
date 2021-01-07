@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import ru.job4j.todo.model.User;
 import ru.job4j.todo.service.HibernateService;
 import ru.job4j.todo.service.MemService;
 import ru.job4j.todo.service.Service;
@@ -12,6 +13,7 @@ import ru.job4j.todo.service.Service;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 
@@ -29,10 +31,13 @@ public class AddTaskServletTest {
         Service stubService = MemService.instOf();
         HttpServletRequest req = mock(HttpServletRequest.class);
         HttpServletResponse resp = mock(HttpServletResponse.class);
+        HttpSession session = mock(HttpSession.class);
 
         PowerMockito.mockStatic(HibernateService.class);
         when(HibernateService.instOf()).thenReturn(stubService);
         when(req.getParameter("description")).thenReturn("Описание");
+        when(req.getSession()).thenReturn(session);
+        when(session.getAttribute("user")).thenReturn(new User());
 
         new AddTaskServlet().doPost(req, resp);
         assertThat(stubService.getTasks(task -> true).size(), is(3));

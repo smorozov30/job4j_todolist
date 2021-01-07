@@ -1,6 +1,7 @@
 package ru.job4j.todo.service;
 
 import ru.job4j.todo.model.Task;
+import ru.job4j.todo.model.User;
 import ru.job4j.todo.store.MemStore;
 import ru.job4j.todo.store.Store;
 
@@ -40,5 +41,22 @@ public class MemService implements Service {
         boolean before = task.isDone();
         task = store.setDone(task);
         return before != task.isDone();
+    }
+
+    @Override
+    public User checkUser(User user) {
+        User result = null;
+        Predicate<User> condition = u -> u.getEmail().equals(user.getEmail());
+        List<User> list = store.getUsers(condition);
+        if (list.size() > 0) {
+            result = list.get(0);
+        }
+        return result;
+    }
+
+    @Override
+    public boolean addUser(User user) {
+        user = store.addUser(user);
+        return user == null;
     }
 }
