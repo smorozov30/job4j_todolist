@@ -53,15 +53,15 @@ public class MemStore implements Store {
     }
 
     @Override
-    public List<User> getUsers(Predicate<User> condition) {
-        return users.values().stream().filter(condition).collect(Collectors.toList());
+    public User getUser(String email) {
+        return users.values().stream().filter(u -> u.getEmail().equals(email)).findFirst().orElse(null);
     }
 
     @Override
-    public User addUser(User user) {
+    public void addUser(User user) {
         if (user.getId() == 0) {
             user.setId(USER_ID.incrementAndGet());
         }
-        return users.putIfAbsent(user.getId(), user);
+        users.putIfAbsent(user.getId(), user);
     }
 }

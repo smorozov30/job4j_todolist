@@ -10,6 +10,6 @@ public interface Store {
     Task addTask(Task task);
     List<Task> getTasks(Predicate<Task> condition);
     Task setDone(Task task);
-    List<User> getUsers(Predicate<User> condition);
-    User addUser(User user);
+    User getUser(String email);
+    void addUser(User user);
 }

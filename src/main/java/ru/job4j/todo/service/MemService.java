@@ -44,19 +44,12 @@ public class MemService implements Service {
     }
 
     @Override
-    public User checkUser(User user) {
-        User result = null;
-        Predicate<User> condition = u -> u.getEmail().equals(user.getEmail());
-        List<User> list = store.getUsers(condition);
-        if (list.size() > 0) {
-            result = list.get(0);
-        }
-        return result;
+    public User checkUser(String email) {
+        return store.getUser(email);
     }
 
     @Override
-    public boolean addUser(User user) {
-        user = store.addUser(user);
-        return user == null;
+    public void addUser(User user) {
+        store.addUser(user);
     }
 }

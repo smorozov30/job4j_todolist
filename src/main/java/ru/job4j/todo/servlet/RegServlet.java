@@ -21,7 +21,7 @@ public class RegServlet extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         User newUser = new User(name, email, password);
-        if (HibernateService.instOf().checkUser(newUser) == null) {
+        if (HibernateService.instOf().checkUser(email) == null) {
             HibernateService.instOf().addUser(newUser);
             resp.sendRedirect(req.getContextPath() + "/login.html");
         } else {

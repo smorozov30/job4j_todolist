@@ -52,13 +52,14 @@ public class HibernateStore implements Store {
     }
 
     @Override
-    public List<User> getUsers(Predicate<User> condition) {
-        return get(session -> session.createQuery("FROM ru.job4j.todo.model.User").list(), condition);
+    public User getUser(String email) {
+        List<User> list = get(session -> session.createQuery("FROM ru.job4j.todo.model.User WHERE email = :email").setParameter("email", email).list(), user -> true);
+        return list.stream().findFirst().orElse(null);
     }
 
     @Override
-    public User addUser(User user) {
-        return (User) add(session -> session.save(user));
+    public void addUser(User user) {
+        add(session -> session.save(user));
     }
 
     private <T> T add(final Function<Session, T> command) {

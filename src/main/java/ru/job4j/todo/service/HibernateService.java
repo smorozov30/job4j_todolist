@@ -7,7 +7,6 @@ import ru.job4j.todo.store.Store;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Predicate;
 
 public class HibernateService implements Service {
@@ -45,19 +44,12 @@ public class HibernateService implements Service {
     }
 
     @Override
-    public User checkUser(User user) {
-        User result = null;
-        String email = user.getEmail();
-        Predicate<User> condition = u -> Objects.equals(u.getEmail(), email);
-        List<User> list = store.getUsers(condition);
-        if (list.size() > 0) {
-            result = list.get(0);
-        }
-        return result;
+    public User checkUser(String email) {
+        return store.getUser(email);
     }
 
     @Override
-    public boolean addUser(User user) {
-        return store.addUser(user) == null;
+    public void addUser(User user) {
+        store.addUser(user);
     }
 }

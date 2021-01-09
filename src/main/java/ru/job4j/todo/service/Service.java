@@ -10,6 +10,6 @@ public interface Service {
     boolean addTask(Task task);
     List<Task> getTasks(Predicate<Task> condition);
     boolean setDone(Task task);
-    User checkUser(User user);
-    boolean addUser(User user);
+    User checkUser(String email);
+    void addUser(User user);
 }
