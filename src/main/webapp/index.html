@@ -15,87 +15,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
             integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="scripts/script.js"></script>
     <title>ToDo List</title>
 </head>
 <body>
-<script>
-
-    $(document).ready(function() {
-        load();
-        currentUser();
-    })
-
-    function load() {
-        $.ajax({
-            type: 'GET',
-            url: 'http://localhost:8080/todolist/tasks',
-            data: {showAll : $('#showAll').is(':checked')},
-            dataType: 'json'
-        }).done(function (data) {
-            $("tbody").empty();
-            for (let i = 0; i < data.length; i++) {
-                let done = Boolean(data[i]["done"]) ? '<input type="checkbox" checked onclick="done($(this))" id="' + data[i]["id"] + '">'
-                                                    : '<input type="checkbox" onclick="done($(this))" id="' + data[i]["id"] + '">';
-                $('tbody').append('<tr>'
-                                + '<th>' + data[i]["id"] + '</th>'
-                                + '<th>' + data[i]["description"] + '</th>'
-                                + '<th>' + data[i]["created"] + '</th>'
-                                + '<th>' + data[i]["user"]["name"] + '</th>'
-                                + '<th>' + done + '</th>'
-                                );
-            }
-        })
-    }
-
-    function add() {
-        if (validate()) {
-            $.ajax({
-                type: 'POST',
-                url: 'http://localhost:8080/todolist/add.do',
-                data: {description : $('#description').val()}
-            }).done(function() {
-                    load()
-                }
-            );
-        }
-    }
-
-    function done(checkbox) {
-        $.ajax({
-            type: 'POST',
-            url: 'http://localhost:8080/todolist/done',
-            data: {id : checkbox.attr('id')}
-        }).done(function() {
-                load()
-            }
-        );
-    }
-
-    function currentUser() {
-        $.ajax({
-            type: 'GET',
-            url: 'http://localhost:8080/todolist/user'
-        }).done(function(data) {
-            $('a').replaceWith('<a href="http://localhost:8080/todolist/login.do">' + data["name"] + '</a>');
-        })
-    }
-
-    function validate() {
-        let result = true;
-        let message = "";
-        let field = $('#description');
-        if (field.val() === "") {
-            message = message + (field.attr("placeholder") + "\n");
-            result = false;
-        }
-        if (!result) {
-            alert(message);
-        }
-        return result;
-    }
-
-</script>
-
 <div class="container">
     <div class="row">
         <ul class="nav">
@@ -104,6 +27,7 @@
             </li>
         </ul>
     </div>
+</div>
 <div class="container pt-3">
     <div class="row">
         <div class="card" style="width: 100%">
@@ -112,11 +36,19 @@
             </div>
             <div class="card-body">
                 <form>
-                    <div class="form-group">
-                        <label>Новая задача</label>
-                        <input type="text" required class="form-control" name="description" id="description" placeholder="Введите описание...">
-                    </div>                    
-                    <button type="submit" class="btn btn-primary" onclick="add()">Добавить</button><br>
+                    <div>
+                        <div class="form-group" style="float: left; width: 65%">
+                            <label>Новая задача</label>
+                            <input type="text" required class="form-control" name="description" id="description" placeholder="Введите описание...">
+                        </div>
+                        <div class="form-group" style="float: right; width: 30%">
+                            <label>Категория</label>
+                            <select class="form-control" name="cIds" id="cIds" multiple>
+
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" onclick="add()">Добавить</button><br>
+                    </div>
                 </form>
             </div>
         </div>
@@ -129,7 +61,8 @@
     <thead>
       <tr>
         <th scope="col">№</th>
-        <th scope="col" width=800px>Описание</th>
+        <th scope="col" width=500px>Описание</th>
+        <th scope="col">Категории</th>
         <th scope="col">Дата</th>
         <th scope="col">Автор</th>
         <th scope="col">Выполнено</th>

@@ -1,5 +1,6 @@
 package ru.job4j.todo.service;
 
+import ru.job4j.todo.model.Category;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
 import ru.job4j.todo.store.MemStore;
@@ -25,9 +26,9 @@ public class MemService implements Service {
     }
 
     @Override
-    public boolean addTask(Task task) {
+    public boolean addTask(Task task, String[] cIds) {
         task.setCreated(new Timestamp(System.currentTimeMillis()));
-        task = store.addTask(task);
+        task = store.addTask(task, cIds);
         return task == null;
     }
 
@@ -51,5 +52,10 @@ public class MemService implements Service {
     @Override
     public void addUser(User user) {
         store.addUser(user);
+    }
+
+    @Override
+    public List<Category> getCategories() {
+        return store.getCategories();
     }
 }

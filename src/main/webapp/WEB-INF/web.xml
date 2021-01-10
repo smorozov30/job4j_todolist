@@ -58,4 +58,13 @@
     <servlet-name>UserServlet</servlet-name>
     <url-pattern>/user</url-pattern>
   </servlet-mapping>
+
+  <servlet>
+    <servlet-name>CategoriesServlet</servlet-name>
+    <servlet-class>ru.job4j.todo.servlet.CategoriesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CategoriesServlet</servlet-name>
+    <url-pattern>/categories</url-pattern>
+  </servlet-mapping>
 </web-app>

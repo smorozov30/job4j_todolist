@@ -1,5 +1,6 @@
 package ru.job4j.todo.store;
 
+import ru.job4j.todo.model.Category;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
 
@@ -7,9 +8,10 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public interface Store {
-    Task addTask(Task task);
+    Task addTask(Task task, String[] cIds);
     List<Task> getTasks(Predicate<Task> condition);
     Task setDone(Task task);
     User getUser(String email);
     void addUser(User user);
+    List<Category> getCategories();
 }

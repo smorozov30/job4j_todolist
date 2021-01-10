@@ -36,6 +36,7 @@ public class AddTaskServletTest {
         PowerMockito.mockStatic(HibernateService.class);
         when(HibernateService.instOf()).thenReturn(stubService);
         when(req.getParameter("description")).thenReturn("Описание");
+        when(req.getParameterValues("cIds[]")).thenReturn(new String[]{"1"});
         when(req.getSession()).thenReturn(session);
         when(session.getAttribute("user")).thenReturn(new User());
 

@@ -4,7 +4,6 @@ import org.junit.Test;
 import ru.job4j.todo.model.Task;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -16,7 +15,7 @@ public class MemStoreTest {
         Store store = MemStore.instOf();
         Task task = store.addTask(new Task(3, "Описание",
                                              new Timestamp(System.currentTimeMillis()),
-                                        false));
+                                        false), new String[]{"1"});
         assertNull(task);
     }
 
@@ -24,7 +23,7 @@ public class MemStoreTest {
     public void whenAddExistIdThenReturnNotNull() {
         Store store = MemStore.instOf();
         Task added = new Task(1, "Описание", new Timestamp(System.currentTimeMillis()), false);
-        Task result = store.addTask(added);
+        Task result = store.addTask(added, new String[]{"1"});
         assertThat(added.getId(), is(result.getId()));
     }
 
