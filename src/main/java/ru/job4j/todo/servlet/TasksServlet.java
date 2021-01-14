@@ -24,7 +24,8 @@ public class TasksServlet extends HttpServlet {
         resp.setCharacterEncoding("UTF-8");
         User user = (User) req.getSession().getAttribute("user");
         boolean checkbox = Boolean.parseBoolean(req.getParameter("showAll"));
-        Predicate<Task> condition = checkbox ? task -> Objects.equals(task.getUser(), user) : task -> !task.isDone() && Objects.equals(task.getUser(), user);
+        Predicate<Task> condition = checkbox ? task -> Objects.equals(task.getUser(), user)
+                                                : task -> !task.isDone() && Objects.equals(task.getUser(), user);
         List<Task> tasks = HibernateService.instOf().getTasks(condition);
         String jsonResp = gson.toJson(tasks);
         resp.getWriter().write(jsonResp);

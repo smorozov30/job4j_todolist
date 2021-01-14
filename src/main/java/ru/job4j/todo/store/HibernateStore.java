@@ -44,7 +44,9 @@ public class HibernateStore implements Store {
 
     @Override
     public List<Task> getTasks(Predicate<Task> condition) {
-        List<Task> list = execute(session -> session.createQuery("SELECT DISTINCT t FROM ru.job4j.todo.model.Task t JOIN FETCH t.categories").list());
+        List<Task> list = execute(session -> session.createQuery(
+                "SELECT DISTINCT t FROM ru.job4j.todo.model.Task t JOIN FETCH t.categories")
+                                                    .list());
         return list.stream().filter(condition).collect(Collectors.toList());
     }
 
@@ -60,7 +62,9 @@ public class HibernateStore implements Store {
 
     @Override
     public User getUser(String email) {
-        List<User> list = execute(session -> session.createQuery("FROM ru.job4j.todo.model.User WHERE email = :email").setParameter("email", email).list());
+        List<User> list = execute(session -> session.createQuery("FROM ru.job4j.todo.model.User WHERE email = :email")
+                                                    .setParameter("email", email)
+                                                    .list());
         return list.stream().findFirst().orElse(null);
     }
 
