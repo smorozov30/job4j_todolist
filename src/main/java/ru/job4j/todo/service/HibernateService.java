@@ -6,7 +6,6 @@ import ru.job4j.todo.model.User;
 import ru.job4j.todo.store.HibernateStore;
 import ru.job4j.todo.store.Store;
 
-import java.util.Date;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -27,7 +26,6 @@ public class HibernateService implements Service {
 
     @Override
     public boolean addTask(Task task, String[] cIds) {
-        task.setCreated(new Date(System.currentTimeMillis()));
         task = store.addTask(task, cIds);
         return task == null;
     }

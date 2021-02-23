@@ -8,7 +8,7 @@ CREATE TABLE users (
 CREATE TABLE task (
     id SERIAL PRIMARY KEY,
     description VARCHAR(255),
-    created TIMESTAMP,
-    done BOOLEAN,
+    created TIMESTAMP DEFAULT NOW(),
+    done BOOLEAN DEFAULT false,
     user_id INTEGER NOT NULL REFERENCES users(id)
 );

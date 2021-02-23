@@ -1,5 +1,7 @@
 package ru.job4j.todo.model;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -8,20 +10,30 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "task")
+@Table(name = "TASK")
 public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "DESCRIPTION",
+            nullable = false)
     private String description;
 
     @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CREATED",
+            nullable = false,
+            updatable = false)
+    @CreationTimestamp
     private Date created;
+
+    @Column(name = "DONE",
+            nullable = false)
     private boolean done;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "USER_ID", updatable = false)
     private User user;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)

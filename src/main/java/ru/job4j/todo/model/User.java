@@ -4,14 +4,24 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "users")
+@Table(name = "USERS")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "NAME",
+            nullable = false)
     private String name;
+
+    @Column(name = "EMAIL",
+            nullable = false,
+            updatable = false)
     private String email;
+
+    @Column(name = "PASSWORD",
+            nullable = false)
     private String password;
 
     public User() {
