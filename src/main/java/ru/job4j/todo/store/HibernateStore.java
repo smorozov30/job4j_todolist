@@ -45,7 +45,9 @@ public class HibernateStore implements Store {
     @Override
     public List<Task> getTasks(Predicate<Task> condition) {
         List<Task> list = execute(session -> session.createQuery(
-                "SELECT DISTINCT t FROM ru.job4j.todo.model.Task t JOIN FETCH t.categories")
+                "SELECT DISTINCT t FROM ru.job4j.todo.model.Task t " +
+                        "JOIN FETCH t.categories " +
+                        "JOIN FETCH t.user")
                                                     .list());
         return list.stream().filter(condition).collect(Collectors.toList());
     }

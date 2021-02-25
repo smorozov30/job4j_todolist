@@ -17,22 +17,18 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "DESCRIPTION",
-            nullable = false)
+    @Column(name = "DESCRIPTION", nullable = false)
     private String description;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "CREATED",
-            nullable = false,
-            updatable = false)
+    @Column(name = "CREATED", nullable = false, updatable = false)
     @CreationTimestamp
     private Date created;
 
-    @Column(name = "DONE",
-            nullable = false)
+    @Column(name = "DONE",  nullable = false)
     private boolean done;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "USER_ID", updatable = false)
     private User user;
 
