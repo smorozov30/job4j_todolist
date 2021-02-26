@@ -33,6 +33,9 @@ public class Task {
     private User user;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinTable(name = "TASK_CATEGORY",
+            joinColumns = @JoinColumn(name = "TASK_ID"),
+            inverseJoinColumns = @JoinColumn(name = "CATEGORIES_ID"))
     private List<Category> categories = new ArrayList<>();
 
     public Task() {
