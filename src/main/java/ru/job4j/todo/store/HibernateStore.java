@@ -45,7 +45,7 @@ public class HibernateStore implements Store {
     @Override
     public List<Task> getTasks(Predicate<Task> condition) {
         List<Task> list = execute(session -> session.createQuery(
-                "SELECT DISTINCT t FROM ru.job4j.todo.model.Task t " +
+                "SELECT DISTINCT t FROM Task t " +
                         "JOIN FETCH t.categories " +
                         "JOIN FETCH t.user")
                                                     .list());
@@ -64,7 +64,7 @@ public class HibernateStore implements Store {
 
     @Override
     public User getUser(String email) {
-        List<User> list = execute(session -> session.createQuery("FROM ru.job4j.todo.model.User WHERE email = :email")
+        List<User> list = execute(session -> session.createQuery("FROM User WHERE email = :email")
                                                     .setParameter("email", email)
                                                     .list());
         return list.stream().findFirst().orElse(null);
@@ -77,7 +77,7 @@ public class HibernateStore implements Store {
 
     @Override
     public List<Category> getCategories() {
-        return execute(session -> session.createQuery("FROM ru.job4j.todo.model.Category").list());
+        return execute(session -> session.createQuery("FROM Category").list());
     }
 
     private <T> T execute(final Function<Session, T> command) {
